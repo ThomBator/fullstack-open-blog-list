@@ -1,0 +1,12 @@
+POST http://localhost:5000/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Generation X",
+    "author": "Douglas Coupland",
+    "url": "genx.com", 
+    "likes": 22
+
+    
+    
+}
