@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const blogRouter = require("./controllers/blogs");
+const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 
 const mongoose = require("mongoose");
@@ -10,9 +11,6 @@ const mongoose = require("mongoose");
 //I think generally it is best to leave it as default true but I guess the course designers want it off for some reason.
 mongoose.set("strictQuery", false);
 const PORT = process.env.PORT || 3003;
-
-const mongoUrl = process.env.MONGODB_URI;
-mongoose.connect(mongoUrl);
 
 mongoose
   .connect(config.MONGODB_URI)
@@ -27,5 +25,8 @@ app.use(cors());
 app.use(express.static("build"));
 app.use(express.json());
 app.use("/api/blog", blogRouter);
+app.use(middleware.requestLogger);
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 module.exports = app;
